@@ -23,8 +23,10 @@ if (isProd) {
     const html = await readFile("build/index.html", "utf8")
     app.get('*', (c) => c.html(html)) // html in dist
 
+    const port = parseInt(process.env.PORT || "8080", 10);
+
     // Start the server
-    serve({...app, port: 4000}, info => {
+    serve({...app, port}, info => {
         console.log(`Listening on http://localhost:${info.port}`);
     });
 }
