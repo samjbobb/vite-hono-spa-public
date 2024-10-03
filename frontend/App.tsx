@@ -61,6 +61,9 @@ function App() {
                     <button onClick={handleCreatePost}>Create Post</button>
                 </p>
             </div>
+            <div>
+                <p>BACKEND_SECRET: {import.meta.env.BACKEND_SECRET}</p>
+            </div>
         </>
     )
 }

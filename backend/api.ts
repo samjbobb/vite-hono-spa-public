@@ -2,9 +2,11 @@ import {Hono} from "hono";
 import {zValidator} from "@hono/zod-validator";
 import {z} from "zod";
 
+
 const api = new Hono()
     .get("/", c => c.json({message: "Hello Hono!"}))
     .get("/hello/:name", zValidator('param', z.object({name: z.string()})), c => {
+
         const messages = [
             "Nice day, huh?",
             "How's it going?",

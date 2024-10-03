@@ -4,7 +4,7 @@ import {serveStatic} from "@hono/node-server/serve-static";
 import {serve} from "@hono/node-server";
 import api from "./api";
 
-
+console.log("Backend secret:", process.env.BACKEND_SECRET)
 
 const app = new Hono()
 
