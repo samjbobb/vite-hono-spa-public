@@ -27,7 +27,7 @@ RUN apt-get update -qq && \
 
 # Install node modules
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile --prod=false
+RUN pnpm install --frozen-lockfile --ignore-scripts --prod=false
 
 # Copy application code
 COPY . .
@@ -36,7 +36,7 @@ COPY . .
 RUN pnpm run build
 
 # Remove development dependencies
-RUN pnpm prune --prod
+RUN pnpm prune --prod --config.ignore-scripts=true
 
 
 # Final stage for app image

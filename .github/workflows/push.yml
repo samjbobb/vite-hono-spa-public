@@ -21,11 +21,11 @@ jobs:
       - name: Install Node.js (set up pnpm cache)
         uses: actions/setup-node@v4
         with:
-          node-version: 21
+          node-version: 21.7.3
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --prod=false
+        run: pnpm install --frozen-lockfile --ignore-scripts --prod=false
 
       - name: Run linter
         run: pnpm run lint
