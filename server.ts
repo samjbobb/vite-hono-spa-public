@@ -5,39 +5,27 @@ import {serve} from "@hono/node-server";
 import {api} from "./api";
 
 
-const isProd = process.env["NODE_ENV"] === "production"
-let html = await readFile(isProd ? "build/index.html" : "index.html", "utf8")
-
-if (!isProd) {
-    // Inject Vite client code to the HTML
-    html = html.replace("<head>", `
-    <script type="module">
-import RefreshRuntime from "/@react-refresh"
-RefreshRuntime.injectIntoGlobalHook(window)
-window.$RefreshReg$ = () => {}
-window.$RefreshSig$ = () => (type) => type
-window.__vite_plugin_react_preamble_installed__ = true
-</script>
-
-    <script type="module" src="/@vite/client"></script>
-    `)
-}
-
 
 const app = new Hono()
-    .use("*", async (c, next) => {
-        c.res.headers.set("X-Hello", "Hono")
-        await next()
-    })
-    .route("/api", api)
-    .use("/*", serveStatic({ root: isProd ? "build/" : "./" })) // path must end with '/'
-    // .get("/*", c => c.html(html))
 
+app.use("*", async (c, next) => {
+    c.res.headers.set("X-Hello", "Hono")
+    await next()
+})
+app.route("/api", api)
 
-export default app
-
+const isProd = process.env["NODE_ENV"] === "production"
 if (isProd) {
-    serve({ ...app, port: 4000 }, info => {
+    // Serve the built frontend from build
+    app.use(serveStatic({root: "build/"})) // path must end with '/'
+
+    // Serve the index.html for all other routes (for SPA routing)
+    const html = await readFile("build/index.html", "utf8")
+    app.get('*', (c) => c.html(html)) // html in dist
+
+    // Start the server
+    serve({...app, port: 4000}, info => {
         console.log(`Listening on http://localhost:${info.port}`);
     });
 }
+export default app
