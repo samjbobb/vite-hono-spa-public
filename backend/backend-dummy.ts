@@ -1,1 +1,1 @@
-export const fromTheBackend = "foobar"
+export const fromTheBackend = "foobar";
