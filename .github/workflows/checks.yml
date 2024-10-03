@@ -13,18 +13,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: "21"
+          run_install: false
+
+      - name: Install Node.js (set up pnpm cache)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21
           cache: "pnpm"
 
-      - name: Install pnpm
-        run: |
-          npm install -g pnpm
-
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile --prod=false
 
       - name: Run linter
         run: pnpm run lint

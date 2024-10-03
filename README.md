@@ -6,6 +6,9 @@
 - One package, no monorepo headache
 - Vite dev server running both frontend and backend with HMR in development, no need to run two separate servers
 - Vite handling build for both frontend and backend
+- Tests with vitest
+- Prettier + Eslint
+- Deploy with Fly.io
 
 ## Resources
 
