@@ -11,7 +11,7 @@ export default defineConfig(({command, mode}) => {
             plugins: [
                 react(),
                 devServer({
-                    entry: "server.ts",
+                    entry: "backend/server.ts",
                     exclude: [
                         // /.*\.(svg|png)($|\?)/,
                         // ...defaultOptions.exclude,
@@ -28,14 +28,10 @@ export default defineConfig(({command, mode}) => {
         return {
             build: {
                 outDir: "build",
-                // rollupOptions: {
-                //     input: ['./src/main.tsx'],
-                // output: {
-                //     entryFileNames: 'static/client.js',
-                //     chunkFileNames: 'static/assets/[name]-[hash].js',
-                //     assetFileNames: 'static/assets/[name].[ext]',
-                // },
-                // },
+                rollupOptions: {
+                    // Extra insurance to keep the backend code out of the client build
+                    external: [/\/backend\//]
+                },
                 copyPublicDir: true,
             },
             plugins: [
@@ -49,7 +45,7 @@ export default defineConfig(({command, mode}) => {
                 minify: false,
                 outDir: "dist",
                 rollupOptions: {
-                    input: './server.ts',
+                    input: 'backend/server.ts',
                 },
                 copyPublicDir: false,
             },

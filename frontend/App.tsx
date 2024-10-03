@@ -2,6 +2,10 @@ import {useState} from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './vite.svg'
 import './App.css'
+import { hc } from 'hono/client'
+import {AppType} from "../backend/api.ts";
+
+const client = hc<AppType>('/api')
 
 function App() {
     const [count, setCount] = useState(0)
@@ -9,9 +13,21 @@ function App() {
 
     const handleNameSubmit = async () => {
         const input = document.getElementById("name-input") as HTMLInputElement
-        const resp = await fetch(`/api/hello/${input.value}`)
-        const data = await resp.json()
-        setMessage(data.message)
+        const res    = await client.hello[":name"].$get({param: {name: input.value}})
+        if (res.ok) {
+            const data = await res.json()
+            setMessage(data.message)
+        }
+    }
+
+    const handleCreatePost = async () => {
+        const res = await client.posts.$post({
+            form: {
+                title: 'Hello',
+                body: 'Hono is a cool project',
+            },
+        })
+        console.log(res)
     }
 
     return (
@@ -30,7 +46,7 @@ function App() {
                     count is {count}
                 </button>
                 <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
+                    Edit <code>frontend/App.tsx</code> and save to test HMR
                 </p>
             </div>
             <div className={"card"}>
@@ -40,9 +56,11 @@ function App() {
                 </p>
                 {message && <p>{message}</p>}
             </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
+            <div className={"card"}>
+                <p>
+                    <button onClick={handleCreatePost}>Create Post</button>
+                </p>
+            </div>
         </>
     )
 }

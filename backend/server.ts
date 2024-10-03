@@ -2,7 +2,7 @@ import {Hono} from "hono";
 import { readFile } from "node:fs/promises"
 import {serveStatic} from "@hono/node-server/serve-static";
 import {serve} from "@hono/node-server";
-import {api} from "./api";
+import api from "./api";
 
 
 
@@ -28,4 +28,5 @@ if (isProd) {
         console.log(`Listening on http://localhost:${info.port}`);
     });
 }
+
 export default app
