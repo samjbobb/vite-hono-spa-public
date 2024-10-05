@@ -14,7 +14,7 @@ app.use("*", async (c, next) => {
 });
 app.route("/api", api);
 
-const isProd = process.env["NODE_ENV"] === "production";
+const isProd = process.env.NODE_ENV === "production";
 if (isProd) {
   // Serve the built frontend from build
   app.use(serveStatic({ root: "build/" })); // path must end with '/'
@@ -23,7 +23,7 @@ if (isProd) {
   const html = await readFile("build/index.html", "utf8");
   app.get("*", (c) => c.html(html)); // html in dist
 
-  const port = parseInt(process.env.PORT || "8080", 10);
+  const port = parseInt(process.env.PORT ?? "8080", 10);
 
   // Start the server
   serve({ ...app, port }, (info) => {

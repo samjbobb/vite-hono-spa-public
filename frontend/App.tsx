@@ -35,10 +35,10 @@ function App() {
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
+        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
-        <a href="https://react.dev" target="_blank">
+        <a href="https://react.dev" target="_blank" rel="noreferrer">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
@@ -54,13 +54,13 @@ function App() {
       <div className={"card"}>
         <input id={"name-input"} type="text" placeholder="Type here" />
         <p>
-          <button onClick={handleNameSubmit}>Submit</button>
+          <button onClick={() => void handleNameSubmit()}>Submit</button>
         </p>
         {message && <p>{message}</p>}
       </div>
       <div className={"card"}>
         <p>
-          <button onClick={handleCreatePost}>Create Post</button>
+          <button onClick={() => void handleCreatePost()}>Create Post</button>
         </p>
       </div>
       <div>
